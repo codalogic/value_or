@@ -30,3 +30,21 @@
 *.exe
 *.out
 *.app
+
+# VS IDE
+.vs/*
+*.suo
+*.ilk
+*.lib
+*.dep
+*.pdb
+*.ncb
+*.idb
+*.htm
+*.res
+*.old
+*.user
+*.manifest
+*.tlog
+*.log
+*.filters
