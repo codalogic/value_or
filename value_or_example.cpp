@@ -7,6 +7,7 @@ using namespace valueor;
 
 #include <cstdio>
 #include <fstream>
+#include <optional>
 
 void pointer_types()
 {
@@ -146,6 +147,40 @@ void fstream_or_file_types()
 	}
 }
 
+namespace valueor {
+	template< typename T >
+	struct value_or_validator< const std::optional<T> & >
+	{
+		static bool is_valid( const std::optional<T> & v ) { return v.has_value(); }
+	};
+}
+
+void std_optional_types()
+{
+	Scenario( "std::optional" );
+
+	struct BadOption1 {};
+	struct BadOption2 {};
+	try
+	{
+		auto optional1 = std::optional<int>( 1 );
+		int i1 = value_or<BadOption1>( optional1 ).value();
+		Good( "Exception not thrown" );
+
+		auto optional2 = std::optional<int>();
+		int i2 = value_or<BadOption2>( optional2 ).value();
+		Bad( "Exception should have thrown" );
+	}
+	catch( const BadOption1 & )
+	{
+		Bad( "Exception should have thrown" );
+	}
+	catch( const BadOption2 & )
+	{
+		Good( "Exception thrown" );
+	}
+}
+
 int main()
 {
 	pointer_types();
@@ -153,4 +188,5 @@ int main()
 	fopen_file_types();
 	fstream_file_types();
 	fstream_or_file_types();
+	std_optional_types();
 }
