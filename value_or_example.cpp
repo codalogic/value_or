@@ -181,6 +181,33 @@ void std_optional_types()
 	}
 }
 
+template< class T >
+struct Fault {};	// Fault might contain data relevant to the problem
+
+void templated_throws()
+{
+	Scenario( "Templated Throws" );
+
+	struct Pointer1 {};
+	struct Pointer2 {};
+	try
+	{
+		int i = 0;
+		int * p_i = value_or<Fault<Pointer1>>( &i );
+		Good( "Exception should not thrown" );
+		p_i = value_or<Fault<Pointer2>>( (int*)0 );
+		Bad( "Exception should have thrown" );
+	}
+	catch( const Fault<Pointer1> & )
+	{
+		Bad( "Exception thrown" );
+	}
+	catch( const Fault<Pointer2> & )
+	{
+		Good( "Exception thrown" );
+	}
+}
+
 int main()
 {
 	pointer_types();
@@ -189,4 +216,5 @@ int main()
 	fstream_file_types();
 	fstream_or_file_types();
 	std_optional_types();
+	templated_throws();
 }
