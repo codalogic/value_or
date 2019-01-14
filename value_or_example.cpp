@@ -164,11 +164,11 @@ void std_optional_types()
 	try
 	{
 		auto optional1 = std::optional<int>( 1 );
-		int i1 = value_or<BadOption1>( optional1 ).value();
+		int i1 = value_or<BadOption1>( optional1 );
 		Good( "Exception not thrown" );
 
 		auto optional2 = std::optional<int>();
-		int i2 = value_or<BadOption2>( optional2 ).value();
+		int i2 = value_or<BadOption2>( optional2 );
 		Bad( "Exception should have thrown" );
 	}
 	catch( const BadOption1 & )

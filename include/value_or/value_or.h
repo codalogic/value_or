@@ -25,6 +25,8 @@
 #ifndef CODALOGIC_VALUE_OR
 #define CODALOGIC_VALUE_OR
 
+#include <optional>
+
 namespace valueor {
 
 //----------------------------------------------------------------------------
@@ -77,6 +79,22 @@ Tvalue * value_or( Tvalue * p_v )
 	if( ! value_or_validator<const Tvalue *>::is_valid( p_v ) )
 		throw Texception();
 	return p_v;
+}
+
+template < typename Texception, typename Tvalue >
+const Tvalue & value_or( const std::optional<Tvalue> & v )
+{
+	if( ! v.has_value() )
+		throw Texception();
+	return v.value();
+}
+
+template < typename Texception, typename Tvalue >
+Tvalue & value_or( std::optional<Tvalue> & v )
+{
+	if( ! v.has_value() )
+		throw Texception();
+	return v.value();
 }
 
 //template < typename Texception >
