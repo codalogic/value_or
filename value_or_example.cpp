@@ -182,13 +182,13 @@ void std_optional_types()
 }
 
 template< class T >
-struct Fault {};	// Fault might contain data relevant to the problem
+struct Fault { int error_code; };	// Fault might contain data relevant to the problem
 
 void templated_throws()
 {
 	Scenario( "Templated Throws" );
 
-	struct Pointer1 {};
+	struct Pointer1 {};		// These route the error handling
 	struct Pointer2 {};
 	try
 	{
